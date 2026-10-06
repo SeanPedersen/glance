@@ -50,6 +50,9 @@ func New(db *sql.DB) *Fetcher {
 			if err != nil {
 				return nil, err
 			}
+			if len(ipList) == 0 {
+				return nil, fmt.Errorf("%w: %s has no addresses", ErrBlocked, host)
+			}
 			for _, ip := range ipList {
 				if !allowed(ip.IP) {
 					return nil, fmt.Errorf("%w: %s resolves to %s", ErrBlocked, host, ip.IP)
